@@ -58,5 +58,3 @@ Correo electrónico enviado con éxito: (correcta ejecucion de SendMail)<br><br>
 **Despliegue en Docker:**<br>
 EJecutar el siguiente comando para construir la imagen de Docker, la aplicacion deve de estar abierta en el momento. 'docker build -t unworkout_cronjob_ms . '<br>
 Ejecutar el contenedor 'docker run -p 3000:3000 -d unworkout_cronjob_ms' <br>
-verificar el funcionamiento del microservicio abriendo en el navegador: http://localhost:3000 <br>
-
