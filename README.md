@@ -13,36 +13,44 @@ Body: Se debe modificar la hora en el día en el que se realizará la prueba, es
         "dia": "Domingo",<br>
         "ejercicios": ["ejercicio1", "ejercicio2"],<br>
         "Hora_inicio": "22:30"<br>
-        },
-        {
-        "dia": "Lunes",
-        "ejercicios": ["ejercicio1", "ejercicio2"],
-        "Hora_inicio": "22:30"
-        },
-        {
-        "dia": "Martes",
-        "ejercicios": ["ejercicio1", "ejercicio2"],
-        "Hora_inicio": "22:30"
-        },
-        {
-        "dia": "Miercoles",
-        "ejercicios": ["ejercicio1", "ejercicio2"],
-        "Hora_inicio": "22:30"
-        },
-        {
-        "dia": "Jueves",
-        "ejercicios": ["ejercicio1", "ejercicio2"],
-        "Hora_inicio": "22:30"
-        },
-        {
-        "dia": "Viernes",
-        "ejercicios": ["ejercicio1", "ejercicio2"],
-        "Hora_inicio": "22:30"
-        },
-        {
-        "dia": "Sabado",
-        "ejercicios": ["ejercicio1", "ejercicio2"],
-        "Hora_inicio": "22:30"
-        }
-    ]
-}
+        },<br>
+        {<br>
+        "dia": "Lunes",<br>
+        "ejercicios": ["ejercicio1", "ejercicio2"],<br>
+        "Hora_inicio": "22:30"<br>
+        },<br>
+        {<br>
+        "dia": "Martes",<br>
+        "ejercicios": ["ejercicio1", "ejercicio2"],<br>
+        "Hora_inicio": "22:30"<br>
+        },<br>
+        {<br>
+        "dia": "Miercoles",<br>
+        "ejercicios": ["ejercicio1", "ejercicio2"],<br>
+        "Hora_inicio": "22:30"<br>
+        },<br>
+        {<br>
+        "dia": "Jueves",<br>
+        "ejercicios": ["ejercicio1", "ejercicio2"],<br>
+        "Hora_inicio": "22:30"<br>
+        },<br>
+        {<br>
+        "dia": "Viernes",<br>
+        "ejercicios": ["ejercicio1", "ejercicio2"],<br>
+        "Hora_inicio": "22:30"<br>
+        },<br>
+        {<br>
+        "dia": "Sabado",<br>
+        "ejercicios": ["ejercicio1", "ejercicio2"],<br>
+        "Hora_inicio": "22:30"<br>
+        }<br>
+    ]<br>
+}<br>
+Respuesta Postman:<br>
+{<br>
+    "mensaje": "Notificación programada con exito"<br>
+}<br><br>
+Respuesta Consola:<br>
+Servidor API REST en ejecución en el puerto 3000 (correcta ejecucion de server.js) <br>
+Notificación enviada (correcta ejecucion de CronJob) <br>
+Correo electrónico enviado con éxito: (correcta ejecucion de SendMail)<br>
