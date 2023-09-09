@@ -1,5 +1,6 @@
 # CronJob
 Encargado de llevar seguimiento de todas las marcas temporales de los usuarios, y notificar de los eventos necesarios.<br>
+Escrito en javaScript <br>
 **Requisitos:** Postman u otra herramiento para probar apis, correo de gmail, vscode y node <br>
 **Instruciones:** ejecutar 'npm start' o 'node server.js', en caso de que de error por las librerias ejecutar 'node install express node-cron nodemailer'<br>
 **Peticion:** <br>
