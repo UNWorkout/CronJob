@@ -45,11 +45,11 @@ POST: localhost:3000/api/notificaciones/notificar<br>
         "Hora_inicio": "22:30"<br>
         }<br>
     ]<br>
-}<br>
+}<br><br>
 **Respuesta Postman:** <br>
 {<br>
     "mensaje": "Notificación programada con exito"<br>
-}<br><br>
+}<br>
 **Respuesta Consola:** <br>
 Servidor API REST en ejecución en el puerto 3000 (correcta ejecucion de server.js) <br>
 Notificación enviada (correcta ejecucion de CronJob) <br>
