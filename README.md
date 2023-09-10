@@ -5,7 +5,10 @@ Postman u otra herramiento para probar apis, correo de gmail, vscode, Docker y n
 ## Instruciones:
 ejecutar 'node server.js', en caso de que de error por las librerias ejecutar 'node install express node-cron nodemailer'<br>
 ## Peticion: 
-POST: localhost:3000/api/notificaciones/notificar<br>
+
+   ```bash
+    POST: localhost:3000/api/notificaciones/notificar<br>
+
 ## Body:
 Se debe modificar la hora en el día en el que se realizará la prueba, es conveniente que sea cercana a la actual, la notificación se activará diez minutos antes<br>
     ```bash
