@@ -1,11 +1,20 @@
+import { ApolloClient, InMemoryCache, HttpLink } from '@apollo/client';
+import { gql } from '@apollo/client';
 const cron = require('node-cron');
 const express = require('express');
 const correoService = require('../SendMail'); 
 
 const app = express();
 
+const client = new ApolloClient({
+  link: new HttpLink({
+    uri: 'http://localhost:4000/',
+  }),
+  cache: new InMemoryCache(),
+});
+
 // Simula una función para obtener el correo del usuario desde la base de datos
-function obtenerCorreoDelUsuario(usuario_id,userMail) {
+function obtenerCorreoDelUsuario(id) {
   return userMail;
 }
 
@@ -30,31 +39,78 @@ function obtenerHoraCron(hora,dia){
 }
 
 //configuracion de la peticion
-app.post('/notificar', (req, res) => {
+app.post('/notificar/:id', async (req, res) => {
     //obtener datos de req
-    const usuarioId = req.body.usuario_id;
-    const userMail = req.body.correo;
-    const correo = obtenerCorreoDelUsuario(usuarioId,userMail);
-    //obtiene el dia de la semana actual
-    const fechaActual = new Date();
-    const diaDeLaSemana = fechaActual.getDay();
-
-    //si hay ejercicios programados para el dia, se notifica con 10 minutos de anticipacion
-    if (req.body.dias_semana[diaDeLaSemana].ejercicios.length > 0) {
-        const horaInicio = req.body.dias_semana[diaDeLaSemana].Hora_inicio; 
-        const horaCron = obtenerHoraCron(horaInicio,diaDeLaSemana);
-        cron.schedule(horaCron , () => {
-            console.log('Notificación enviada');
-            //enviar correo usando la funcionalidad creada en el archivo SendMail.js
-            correoService.enviarCorreo(correo, 'Recordatorio de Ejercicios', 'Hola, recuerda que tienes ejercicios dentro de 10 minutos');
-          }, {
-            scheduled: true,
-            timezone: 'America/Bogota',
-          });
-          res.json({ mensaje: 'Notificación programada con exito' });
-    }else{
-        console.log('No hay ejercicios para notificar');
-    }
+    const correo = obtenerCorreoDelUsuario(req.params.id);
+    // Definir la consulta GraphQL
+    const GET_ROUTINE_USER = gql`
+      query {
+        routineUser(ID: ${req.params.id}) {
+          dias_semana {
+            Duracion_Max
+            Hora_inicio
+            dia
+            ejercicios
+          }
+        }
+      }
+      `;
+  // Realizar la solicitud GraphQL
+  client.query({
+    query: GET_ROUTINE_USER,
+  })
+    .then((response) => {
+      const routineUserData = response.data.routineUser;
+      //obtiene el dia de la semana actual
+      const fechaActual = new Date();
+      let diaDeLaSemana = fechaActual.getDay();
+      // Mapear el número del día actual al nombre del día de la semana
+      const diasSemana = ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'];
+      const diaActual = diasSemana[diaDeLaSemana];
+      //si hay ejercicios programados para el dia, se notifica con 10 minutos de anticipacion
+      let val = false;  
+      for (let i = 0; i < routineUserData.dias_semana.length; i++) {
+          if (routineUserData.dias_semana[i].dia == diaActual) {
+              diaDeLaSemana = i;
+              val = true;
+              break;
+          }
+      }
+      if (val && routineUserData.dias_semana[diaDeLaSemana].ejercicios.length > 0) {
+          const horaInicio = routineUserData.dias_semana[diaDeLaSemana].Hora_inicio; 
+          const horaCron = obtenerHoraCron(horaInicio,diaDeLaSemana);
+          cron.schedule(horaCron , () => {
+              console.log('Notificación enviada');
+              //enviar correo usando la funcionalidad creada en el archivo SendMail.js
+              correoService.enviarCorreo(correo, 'Recordatorio de Ejercicios', 'Hola, recuerda que tienes ejercicios dentro de 10 minutos');
+            }, {
+              scheduled: true,
+              timezone: 'America/Bogota',
+            });
+            res.json({ mensaje: 'Notificación programada con exito' });
+      }else{
+          console.log('No hay ejercicios para notificar');
+      }
+    })
+    .catch((error) => {
+      console.error('Error al realizar la solicitud:', error);
+    });
 });
 
 module.exports = app;
+
+/*
+const GET_ROUTINE_USER = gql`
+  query getRoutineUser($id: ID) {
+    routineUser(ID: $id) {
+      dias_semana {
+        Duracion_Max
+        Hora_inicio
+        dia
+        ejercicios
+      }
+    }
+  }
+`;
+si no funciona, probar con esta
+*/
