@@ -9,50 +9,9 @@ Postman u otra herramiento para probar apis, correo de gmail, vscode, Docker y n
    node install express node-cron nodemailer
 3. Peticion:
    ```bash
-   POST: localhost:3000/api/notificaciones/notificar
-4. **Body**: Se debe modificar la hora en el día en el que se realizará la prueba, es conveniente que sea cercana a la actual, la notificación se activará diez minutos antes
-   ```bash
-   {   
-     "usuario_id": 1,
-     "correo": "correo de prueba gmail",
-     "dias_semana": [
-         {
-         "dia": "Domingo",
-         "ejercicios": ["ejercicio1", "ejercicio2"],
-         "Hora_inicio": "22:30"
-         },
-         {
-         "dia": "Lunes",
-         "ejercicios": ["ejercicio1", "ejercicio2"],
-         "Hora_inicio": "22:30"
-         },
-         {
-         "dia": "Martes",
-         "ejercicios": ["ejercicio1", "ejercicio2"],
-         "Hora_inicio": "22:30"
-         },
-         {
-         "dia": "Miercoles",
-         "ejercicios": ["ejercicio1", "ejercicio2"],
-         "Hora_inicio": "22:30"
-         },
-         {
-         "dia": "Jueves",
-         "ejercicios": ["ejercicio1", "ejercicio2"],
-         "Hora_inicio": "22:30"
-         },
-         {
-         "dia": "Viernes",
-         "ejercicios": ["ejercicio1", "ejercicio2"],
-         "Hora_inicio": "22:30"
-         },
-         {
-         "dia": "Sabado",
-         "ejercicios": ["ejercicio1", "ejercicio2"],
-         "Hora_inicio": "22:30"
-         }]
-   }
-
+   POST: localhost:3000/api/notificaciones/notificar/id 
+4. **Body**: modificar id con el identificador del usuario en la APi, la peticion es RoutineUser: Routine
+   
 **Respuesta Postman:** <br>
     "mensaje": "Notificación programada con exito"<br>
 **Respuesta Consola:** <br>
