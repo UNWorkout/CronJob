@@ -6,10 +6,27 @@ const { gql } = require('graphql-tag'); // Importar gql de graphql-tag
 
 const app = express();
 
-// Simula una función para obtener el correo del usuario desde la base de datos
-function obtenerCorreoDelUsuario(id) {
-  //return userMail;
-  return 'eduard.rubioa@gmail.com';
+async function obtenerCorreoDelUsuario(id) {
+  // Definir la consulta GraphQL
+  const query = gql`
+    query getUserEmailById($id: String!) {
+      getUserEmailById(id: $id) {
+        msg
+        email
+      }
+    }
+  `;
+  try {
+    const response = await axios.post('http://localhost:4000/', {
+      query: query.loc.source.body,
+      variables: { id: id }, 
+    });
+    const email = response.data.data.getUserEmailById.email;
+    return email;
+  } catch (error) {
+    console.error('Error al obtener el correo del usuario:', error);
+    throw error; 
+  }
 }
 
 // Función para transformar una hora en formato digital 00:00 a una hora en formato cron
@@ -30,8 +47,7 @@ function obtenerHoraCron(hora, dia) {
 
 // Configuración de la solicitud GraphQL
 app.post('/notificar/:id', async (req, res) => {
-  // Obtener datos de req
-  const correo = obtenerCorreoDelUsuario(req.params.id);
+  const correo = await obtenerCorreoDelUsuario(req.params.id);
 
   // Definir la consulta GraphQL utilizando gql
   const query = `
