@@ -28,7 +28,7 @@ async function NotificarRutina(req, res) {
       }
     const fechaActual = new Date();
     let diaDeLaSemana = fechaActual.getDay();
-    const diasSemana = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+    const diasSemana = ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'];
     const diaActual = diasSemana[diaDeLaSemana];
     let val = false;
     for (let i = 0; i < dias_semana.length; i++) {
@@ -47,9 +47,13 @@ async function NotificarRutina(req, res) {
             scheduled: true,
             timezone: 'America/Bogota',
         });
-        res.json({ mensaje: 'Notificación programada con éxito' });
+        return res.status(200).json({
+            'msg':`Notificación programada con éxito`,
+        })
     } else {
-        console.log('No hay ejercicios para notificar');
+        return res.status(500).json({
+            'msg':`No hay ejercicios programados para hoy`,
+        })
     }
 }
 
@@ -64,7 +68,18 @@ async function SendMail(req, res) {
             msg: 'Datos incompletos'
         });
     }
-    EnviarEmail(destinatario, asunto, mensaje);
+    try {
+        const info = await EnviarEmail(destinatario, asunto, mensaje);
+        return res.status(200).json({
+            msg: 'Correo enviado exitosamente',
+            info: info.response,
+        });
+    } catch (error) {
+        return res.status(500).json({
+            msg: 'Correo no pudo ser enviado',
+            error: error.message,
+        });
+    }
 }
 
 module.exports = {
